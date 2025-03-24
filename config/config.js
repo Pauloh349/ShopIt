@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyCLpDUGI56SZbY6NXfVhI7-1N4iVBEqg5s",
   authDomain: "shopit-c9343.firebaseapp.com",
   projectId: "shopit-c9343",
