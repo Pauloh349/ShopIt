@@ -1,0 +1,45 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    /* line-height: 1.6; */
+    margin: 0;
+}
+
+
+/* Navigation Bar Styles */
+.category-nav {
+    display: flex;
+    justify-content: center;
+    background-color: #444; /* Dark gray background */
+    padding: 10px 0;
+}
+
+
+
+/* Main Content Styles */
+main {
+    padding: 20px;
+}
+
+
+/* Product Card Styles */
+.card {
+    background-color: white;
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}

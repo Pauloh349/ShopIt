@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <script src="https://kit.fontawesome.com/438ed977b6.js" crossorigin="anonymous"></script>    
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="../images/logo.png" rel="icon">
+    <style>
+        body {
+            display: flex;
+            background-color: #f4f4f4;
+        }
+        .account-card {
+            width: 400px;
+            background-color: #d9d9d9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+            margin: 20px auto;
+        }
+        /* Profile Picture */
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e0e0e0;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        input {
+            display: none;
+        }
+        /* Seller Information */
+        .user-info {
+            margin-bottom: 20px;
+        }
+        .user-name {
+            font-size: 3rem;
+            margin: 0;
+            color: #333;
+        }
+        .user-email {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #555;
+            margin: 5px 0 0;
+        }
+        .role strong {
+            font-size: 1.5rem;
+        }
+        .role span {
+            font-size: 1.2rem;
+            color: #333;
+        }
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .edit-profile-btn,
+        .logout-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn i {
+            padding: 5px;
+        }
+        .edit-profile-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .edit-profile-btn:hover {
+            background-color: #0056b3;
+        }
+        .logout-btn {
+            background-color: #12c23b;
+            color: #fff;
+        }
+        .logout-btn:hover {
+            background-color: #008800;
+        }
+        /*responsiveness*/
+        @media (max-width: 600px) {
+            .account-card {
+            margin: 70px auto;
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="account-card">
+        <!-- Profile Picture -->
+         <label for="profilePicInput">
+            <img src="../images/Admin.png" 
+            alt="Profile Picture" class="profile-picture" id="profilePicture">
+        </label>
+        <input type="file" id="profilePicInput" accept="image/*">
+        
+    
+        <!-- User Information -->
+        <div class="user-info">
+            <h2 class="user-name" id="userName"></h2>
+            <p class="user-email" id="userEmail"></p>
+            <p class="role"><strong>Role:</strong> <span id="userRole">Seller</span></p>
+        </div>
+    
+        <!-- Action Buttons -->
+        <div class="actions">
+            <button class="logout-btn">Log Out <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Fetch user data from localStorage
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (user) {
+            // Display user data
+            document.getElementById("userName").textContent = user.username || "User name";
+            document.getElementById("userEmail").textContent = user.email || "email";
+        } else {
+            // Redirect to login page if no user data is found
+            window.location.href = "login.html";
+        }
+
+        // Upload profile picture
+        document.getElementById('profilePicInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const imageUrl = URL.createObjectURL(file);
+                document.getElementById('profilePicture').src = imageUrl;
+            }
+        });
+
+        // Handle Log Out
+        document.querySelector('.logout-btn').addEventListener('click', () => {
+            localStorage.removeItem("user");
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>

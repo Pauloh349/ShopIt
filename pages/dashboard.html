@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Dashboard</title>
+  <link rel="stylesheet" href="../styles/dashboard.css">
+  <link href="../images/logo.png" rel="icon">
+  <script src="https://kit.fontawesome.com/438ed977b6.js" crossorigin="anonymous"></script>
+  <!-- Include Firebase SDK -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, query, where, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLpDUGI56SZbY6NXfVhI7-1N4iVBEqg5s",
+      authDomain: "shopit-c9343.firebaseapp.com",
+      projectId: "shopit-c9343",
+      storageBucket: "shopit-c9343.firebasestorage.app",
+      messagingSenderId: "1047611691322",
+      appId: "1:1047611691322:web:ef0738ee3d5ea320954003",
+      measurementId: "G-T6BZZ45YB2"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Function to load products for the logged-in user
+    const loadUserProducts = async (sellerId) => {
+      try {
+        // Query Firestore for products where sellerId matches the logged-in user's UID
+        
+        const productsQuery = query(collection(db, "products"), where("sellerId", "==", sellerId));
+        const querySnapshot = await getDocs(productsQuery);
+       
+        const total=document.getElementById('total-products');
+        total.innerHTML=querySnapshot.size;
+
+        const productList = document.getElementById("product-list");
+        productList.innerHTML = "";
+
+        if (querySnapshot.empty) {
+          productList.innerHTML = "<p>No products found. Add a new product!</p>";
+          return;
+        }
+
+        // Loop through the products and display them
+        querySnapshot.forEach((doc) => {
+          const product = doc.data();
+      
+          const productItem = document.createElement("div");
+          productItem.className = "product-item";
+
+          productItem.innerHTML = `
+            <div class="product-image">
+              <img src="${product.imageUrl}" alt="${product.name}">
+            </div>
+            <div class="product-details">
+              <h3>${product.name}</h3>
+              <p class="description"><strong>Description:</strong>${product.description}</p>
+              <p><strong>Price:</strong> KES ${product.price}</p>
+              <p><strong>Category:</strong> ${product.category}</p>
+              <p><small>Posted on: ${new Date(product.createdAt?.toDate()).toLocaleDateString()}</small></p>
+              <div class="product-actions">
+    
+                <button class="delete-btn" data-id="${doc.id}" data-image="${product.imageUrl}">Delete</button>
+              </div>
+            </div>
+          `;
+
+          productList.appendChild(productItem);
+        });
+
+        // Add event listeners for delete buttons
+        document.querySelectorAll('.delete-btn').forEach((button) => {
+          button.addEventListener('click', async () => {
+            const productId = button.getAttribute('data-id');
+            const imageUrl = button.getAttribute('data-image');
+            if (confirm("Are you sure you want to delete this product?")) {
+              await deleteProduct(productId, imageUrl);
+              loadUserProducts(user.uid); // Refresh the product list
+            }
+          });
+        });
+
+        // Add event listeners for edit buttons
+        document.querySelectorAll('.edit-btn').forEach((button) => {
+          button.addEventListener('click', () => {
+            const productId = button.getAttribute('data-id');
+            editProduct(productId);
+          });
+        });
+      } catch (error) {
+        console.error("Error loading products:", error);
+        alert("Error loading products. Please try again.");
+      }
+    };
+
+    // Function to delete a product
+    const deleteProduct = async (productId, imageUrl) => {
+      try {
+        // Delete the product document from Firestore
+        await deleteDoc(doc(db, "products", productId));
+
+        // Delete the product image from Firebase Storage
+        const imageRef = ref(storage, imageUrl);
+        await deleteObject(imageRef);
+
+        alert("Product deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        alert("Error deleting product. Please try again.");
+      }
+    };
+
+
+    // Check authentication state and display user data
+    const user = JSON.parse(localStorage.getItem("user"));
+    
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      // Display username
+      const usernameElement = document.querySelector(".seller");
+      if (usernameElement) {
+        usernameElement.textContent = `Welcome, ${user.username}!`;
+      }
+
+      // Load products for the logged-in user
+      loadUserProducts(user.uid);
+    }
+
+    // Handle form submission for adding a new product
+    document.getElementById('productForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      // Get form values
+      const productName = document.getElementById('productName').value;
+      const productPrice = document.getElementById('productPrice').value;
+      const productDescription = document.getElementById('productDescription').value;
+      const productCategory = document.getElementById('productCategory').value;
+      const productImage = document.getElementById('productImage').files[0];
+
+      // Validate all fields are filled
+      if (!productName || !productPrice || !productCategory || !productImage) {
+        alert('Please fill in all fields');
+        return;
+      }
+
+      try {
+        // Upload image to Firebase Storage
+        const storageRef = ref(storage, `products/${productImage.name}`);
+        await uploadBytes(storageRef, productImage);
+        const imageUrl = await getDownloadURL(storageRef);
+
+        // Upload product data to Firestore
+        await addDoc(collection(db, 'products'), {
+          name: productName,
+          price: productPrice,
+          description: productDescription,
+          category: productCategory,
+          imageUrl: imageUrl,
+          createdAt: serverTimestamp(),
+          sellerId: user.uid // Add seller ID to product data
+        });
+
+        alert('Product added successfully!');
+        document.getElementById('productForm').reset();
+
+        // Reload products after adding a new one
+        loadUserProducts(user.uid);
+      } catch (error) {
+        console.error('Error adding product:', error);
+        alert('Error adding product. Please try again.');
+      }
+    });
+
+    // Handle logout
+    document.querySelector('.dropdown-content a[href="#"]').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    });
+  </script>
+</head>
+<body>
+  <!-- Nav Section -->
+  <nav>
+    <span class="seller">Welcome, User!</span>
+    <!-- Account Dropdown -->
+    <div class="profile-dropdown">
+      <button class="combine">
+        <div class="account-icon">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="dropdown">
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </button>
+      <div class="dropdown-content">
+        <a href="account.html"><i class="fas fa-user"></i> My Account</a>
+        <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Overview -->
+  <section class="overview">
+    <div class="cards">
+      <div class="card">
+        <div class="top"></div>
+        <div class="card-body">
+          <h3>Products</h3>
+          <p id="total-products"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Add Products Form -->
+    <section class="product-form">
+      <h2 class="add">Add a New Product</h2>
+      <form id="productForm">
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <input type="text" id="productName" name="productName" required>
+        </div>
+        <div class="form-group">
+          <label for="productPrice">Price (KES)</label>
+          <input type="number" id="productPrice" name="productPrice" required>
+        </div>
+        <div class="form-group">
+          <label for="productDescription">Description</label>
+          <textarea id="productDescription" name="productDescription" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="productCategory">Category</label>
+          <select id="productCategory" name="productCategory" required>
+            <option value="electronics">Electronics</option>
+            <option value="household">Household</option>
+            <option value="women">Women Wear</option>
+            <option value="men">Men's Wear</option>
+          </select>
+        </div>
+        <div class="form-group image">
+          <label for="productImage">Product Image</label>
+          <input type="file" id="productImage" name="productImage" accept="image/*">
+        </div>
+        <div class="form-group">
+          <button type="submit">Add Product</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+      <h2>Manage Products</h2>
+      <div class="items" id="product-list">
+        <!-- Product list will be dynamically populated here -->
+      </div>
+    </section>
+  </main>
+</body>
+</html>

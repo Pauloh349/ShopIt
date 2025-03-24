@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="../styles/signup.css">
+    <link href="../images/logo.png" rel="icon">
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <label for="whatsapp-number">WhatsApp Number</label>
+                <input
+                  type="tel"
+                  id="whatsapp-number"
+                  name="whatsapp-number"
+                  placeholder="WhatsApp number (+254...)"
+                  required
+                />
+              </div>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        import {db} from '../config.js'
+
+        const auth=getAuth();
+      
+        
+        function validateWhatsAppNumber(whatsappNumber) {
+          const regex = /^\+254\d{9}$/;
+          return regex.test(whatsappNumber);
+        }
+      
+        document.getElementById("signup-form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+      
+          const email = document.getElementById("email").value;
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const whatsapp = document.getElementById("whatsapp-number").value;
+          const confirmPassword = document.getElementById("confirm-password").value;
+      
+          // Validate WhatsApp number format
+          if (!validateWhatsAppNumber(whatsapp)) {
+            alert("Please enter WhatsApp number in the format +254xxxxxxxxx.");
+            return;
+          }
+      
+          // Validate passwords match
+          if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+          }
+      
+          try {
+            // Create user with Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+      
+            // Save user data to Firestore
+            await setDoc(doc(db, "users", user.uid), {
+              uid: user.uid,
+              email: user.email,
+              username: username,
+              whatsappNumber: whatsapp,
+              createdAt: new Date(),
+            });
+      
+            // Save user data to localStorage
+            localStorage.setItem(
+              "user",
+              JSON.stringify({
+                uid: user.uid,
+                email: user.email,
+                username: username,
+              })
+            );
+      
+            console.log("User created and data saved to Firestore and localStorage");
+            alert("Signup successful!");
+      
+            // Redirect to dashboard
+            window.location.href = "dashboard.html";
+          } catch (error) {
+            // Handle errors
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert("Error: " + errorMessage);
+            console.error("Error code:", errorCode, "Error message:", errorMessage);
+          }
+        });
+      </script>
+</body>
+</html>

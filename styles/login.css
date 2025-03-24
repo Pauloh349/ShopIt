@@ -1,0 +1,120 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body styles */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #65e765, #dedad9);
+}
+
+/* Login container */
+.login-container {
+    width: 380px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Heading */
+.login-container h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #000;
+    font-family: "Merriweather", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.login-container h2 span{
+        font-size: 36px;
+        font-weight: 700;
+        color:#008000; 
+        font-family: "Merriweather", serif;
+        font-weight: 800;
+        font-style: italic;
+     
+}
+.input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+}
+
+.input-group i {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: gray;
+}
+
+/* Remember & Forgot */
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.remember-forgot a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+/* Login button */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #008000;
+    color: white;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #013601;
+}
+
+/* Sign up link */
+p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+p a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+

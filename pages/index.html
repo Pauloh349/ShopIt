@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopIt</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/index.css">
+    <link href="../images/logo.png" rel="icon">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <span><img src="../images/logo.png" alt="user icon" style="height: 2rem; width: 2rem; border-radius: 50%;"></span>
+            <span style="font-family: 'Times New Roman', Times, serif">ShopIt</span>
+        </div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search it and shop it..." style="width: 90%;">
+        </div>
+        <div class="account-icon">
+            <button onclick="window.location.href='./signup.html'">Sell Product</button>
+        </div>
+    </header>
+
+    <nav class="category-nav">
+        <button onclick="window.location.href=`./electronics.html`">Electronics</button>
+        <button onclick="window.location.href=`./households.html`">Household</button>
+        <button onclick="window.location.href=`./women.html`">Women Wear</button>
+        <button onclick="window.location.href='./menClothes.html'">Men’s Wear</button>
+    </nav>
+
+    <main>
+        <div class="grid-container" id="product-grid">
+        </div>
+    </main>
+
+    <!-- Modal Structure -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-body">
+        <!-- Product details will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <div
+  id="no-items-message"
+  style="
+    display: none;
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  "
+>
+  <p
+    style="
+      font-size: 1.2em;
+      color: #555;
+      margin: 0;
+      font-weight: 500;
+    "
+  >
+    No items found matching your search.
+  </p>
+</div>
+
+    <footer>
+        <p>&copy; 2025 ShopIt. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="../functionalities/index.js"></script>
+    <script type="module" src="../config.js"></script>
+</body>
+</html>
