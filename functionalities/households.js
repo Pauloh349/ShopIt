@@ -1,4 +1,5 @@
 import {
+  getFirestore,
   collection,
   query,
   where,
@@ -7,7 +8,20 @@ import {
   getDoc,
 } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-import { db } from "../config/config";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCLpDUGI56SZbY6NXfVhI7-1N4iVBEqg5s",
+  authDomain: "shopit-c9343.firebaseapp.com",
+  projectId: "shopit-c9343",
+  storageBucket: "shopit-c9343.firebasestorage.app",
+  messagingSenderId: "1047611691322",
+  appId: "1:1047611691322:web:ef0738ee3d5ea320954003",
+  measurementId: "G-T6BZZ45YB2",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Function to fetch products by category
 async function fetchProductsByCategory() {
@@ -93,7 +107,9 @@ async function showProductModal(product) {
   const modalBody = document.querySelector(".modal-body");
 
   // Fetch the seller's WhatsApp number
-  const sellerWhatsAppNumber = await fetchSellerWhatsAppNumber(product.sellerId);
+  const sellerWhatsAppNumber = await fetchSellerWhatsAppNumber(
+    product.sellerId
+  );
 
   // Populate the modal with product details
   modalBody.innerHTML = `
@@ -108,7 +124,7 @@ async function showProductModal(product) {
         ? `onclick="window.location.href='https://wa.me/${sellerWhatsAppNumber}?text=I+am+interested+in+*${encodeURIComponent(
             product.name
           )}*+ of cost *KES+${product.price}* + posted on _ShopIt_'"`
-        : 'disabled'
+        : "disabled"
     }>Contact Seller</button>
   `;
 
