@@ -7,7 +7,7 @@ import {
   getDoc,
 } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-import { db } from "../config";
+import { db } from "../config/config";
 
 // Function to fetch products by category
 async function fetchProductsByCategory() {

@@ -1,4 +1,4 @@
-import { db } from "../config";
+import { db } from "../config/config";
 
 
 // Event listener to the product form to handle form submission
