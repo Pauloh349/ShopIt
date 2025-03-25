@@ -298,6 +298,13 @@ button:hover {
         margin-bottom: 20px;
         width: 100%;
     }
+    .items img{
+        height: 100px;
+        width: 100px;
+    }
+    .items .product-details{
+        width: fit-content;
+    }
 }
 @media (max-width: 768px) {
     .overview {
@@ -318,6 +325,14 @@ button:hover {
     }
     .account-icon {
         font-size: 30px;
+    }
+
+    .items img{
+        height: 100px;
+        width: 100px;
+    }
+    .items .product-details{
+        width: fit-content;
     }
 }
 @media (max-width: 480px) {
