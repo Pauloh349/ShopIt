@@ -126,7 +126,7 @@ import {
               product.name
             )}*+ of cost *KES+${product.price}* + posted on _ShopIt_'"`
           : "disabled"
-      }>Contact Seller</button>
+      }>WhatsApp Seller</button>
     `;
   
     modal.style.display = "block";
