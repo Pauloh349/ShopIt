@@ -228,6 +228,7 @@ button:hover {
     gap: 10px;border: 1px solid #d9d9d9;
     border-radius: 5px;
     margin: 10px;
+    background-color: red;
 }
 .details {
     display: flex;
@@ -332,5 +333,9 @@ button:hover {
     .product-details{
         display: flex;
         flex-wrap: wrap;
+    }
+    .items img{
+        height: 100px;
+        width: 100px;
     }
 }
