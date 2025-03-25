@@ -125,7 +125,7 @@ async function showProductModal(product) {
             product.name
           )}*+ of cost *KES+${product.price}* + posted on _ShopIt_'"`
         : "disabled"
-    }>WhatsApp Seller</button>
+    }>WhatsApp the Seller</button>
   `;
 
   modal.style.display = "block";
