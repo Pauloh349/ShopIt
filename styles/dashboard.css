@@ -338,4 +338,7 @@ button:hover {
         height: 100px;
         width: 100px;
     }
+    .items .product-details{
+        width: fit-content;
+    }
 }
