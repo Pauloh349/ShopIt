@@ -30,7 +30,7 @@ async function fetchAllProducts() {
     const productsCollection = collection(db, "products");
     const productsQuery = query(
       productsCollection,
-      where("category", "in", ["electronics", "men", "women", "household"])
+      where("category", "in", ["electronics", "men", "women", "household","others"])
     );
 
     const querySnapshot = await getDocs(productsQuery);
