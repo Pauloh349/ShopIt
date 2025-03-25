@@ -228,7 +228,7 @@ button:hover {
     gap: 10px;border: 1px solid #d9d9d9;
     border-radius: 5px;
     margin: 10px;
-    background-color: red;
+    padding: 5px;
 }
 .details {
     display: flex;
