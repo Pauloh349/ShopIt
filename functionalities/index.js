@@ -10,19 +10,18 @@ import {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCLpDUGI56SZbY6NXfVhI7-1N4iVBEqg5s",
+  authDomain: "shopit-c9343.firebaseapp.com",
+  projectId: "shopit-c9343",
+  storageBucket: "shopit-c9343.firebasestorage.app",
+  messagingSenderId: "1047611691322",
+  appId: "1:1047611691322:web:ef0738ee3d5ea320954003",
+  measurementId: "G-T6BZZ45YB2",
+};
 
- const firebaseConfig = {
-      apiKey: "AIzaSyCLpDUGI56SZbY6NXfVhI7-1N4iVBEqg5s",
-      authDomain: "shopit-c9343.firebaseapp.com",
-      projectId: "shopit-c9343",
-      storageBucket: "shopit-c9343.firebasestorage.app",
-      messagingSenderId: "1047611691322",
-      appId: "1:1047611691322:web:ef0738ee3d5ea320954003",
-      measurementId: "G-T6BZZ45YB2"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Function to fetch all products
 async function fetchAllProducts() {
@@ -30,7 +29,13 @@ async function fetchAllProducts() {
     const productsCollection = collection(db, "products");
     const productsQuery = query(
       productsCollection,
-      where("category", "in", ["electronics", "men", "women", "household","others"])
+      where("category", "in", [
+        "electronics",
+        "men",
+        "women",
+        "household",
+        "others",
+      ])
     );
 
     const querySnapshot = await getDocs(productsQuery);
@@ -65,9 +70,8 @@ function displayProducts(products) {
     noItemsMessage.style.display = "block";
     productGrid.style.display = "none"; // Hide the product grid
   } else {
-    // Hide the "No Items Found" message
     noItemsMessage.style.display = "none";
-    productGrid.style.display = "grid"; // Show the product grid
+    productGrid.style.display = "grid";
 
     // Loop through the products and create HTML cards for each product
     products.forEach((product) => {

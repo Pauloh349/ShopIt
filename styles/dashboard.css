@@ -25,6 +25,22 @@ nav {
     width: 100%;
     z-index: 1000;
 }
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+.home-btn {
+    color: #555;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 30px;
+    align-items: center;
+}
+.home-btn:hover {
+    color: #0363c9;
+}
 .seller {
     font-size: 2rem;
     font-weight: bold;
@@ -48,10 +64,10 @@ nav {
     background: none;
     border: none;
     font-size: 40px;
-    color: rgb(83, 83, 114);
+    color: #555;
 }
 .dropdown {
-    color: rgb(83, 83, 114);
+    color: #555;
     font-size: 20px;
 }
 .dropdown-content {
@@ -228,7 +244,6 @@ button:hover {
     gap: 10px;border: 1px solid #d9d9d9;
     border-radius: 5px;
     margin: 10px;
-    padding: 5px;
 }
 .details {
     display: flex;
@@ -298,13 +313,6 @@ button:hover {
         margin-bottom: 20px;
         width: 100%;
     }
-    .items img{
-        height: 100px;
-        width: 100px;
-    }
-    .items .product-details{
-        width: fit-content;
-    }
 }
 @media (max-width: 768px) {
     .overview {
@@ -326,14 +334,6 @@ button:hover {
     .account-icon {
         font-size: 30px;
     }
-
-    .items img{
-        height: 100px;
-        width: 100px;
-    }
-    .items .product-details{
-        width: fit-content;
-    }
 }
 @media (max-width: 480px) {
     nav {
@@ -348,12 +348,5 @@ button:hover {
     .product-details{
         display: flex;
         flex-wrap: wrap;
-    }
-    .items img{
-        height: 100px;
-        width: 100px;
-    }
-    .items .product-details{
-        width: fit-content;
     }
 }

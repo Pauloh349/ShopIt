@@ -193,7 +193,14 @@
 <body>
   <!-- Nav Section -->
   <nav>
-    <span class="seller">Welcome, User!</span>
+
+    <div class="nav-left">
+      <a href="/index.html" class="home-btn">
+        <i class="fas fa-home"></i>
+      </a>
+      <span class="seller">Welcome, user!</span>
+    </div>
+
     <!-- Account Dropdown -->
     <div class="profile-dropdown">
       <button class="combine">
@@ -209,6 +216,7 @@
         <a href="/index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </div>
     </div>
+
   </nav>
 
   <!-- Dashboard Overview -->
@@ -218,7 +226,7 @@
         <div class="top"></div>
         <div class="card-body">
           <h3>Products</h3>
-          <p id="total-products">0</p>
+          <p id="total-products"></p>
         </div>
       </div>
     </div>
@@ -249,7 +257,6 @@
             <option value="household">Household</option>
             <option value="women">Women Wear</option>
             <option value="men">Men's Wear</option>
-            <option value="others">Other</option>
           </select>
         </div>
         <div class="form-group image">
@@ -266,6 +273,7 @@
     <section class="products">
       <h2>Manage Products</h2>
       <div class="items" id="product-list">
+        <!-- Product list will be dynamically populated here -->
       </div>
     </section>
   </main>
