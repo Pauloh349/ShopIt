@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comrade Marketplace - User Portal</title>
+  <link rel="stylesheet" href="../styles/help.css">
+</head>
+<body>
+
+  <header>
+    <h1>Comrade Marketplace</h1>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="showSection('features')">Features</a></li>
+        <li><a href="#" onclick="showSection('help')">Help</a></li>
+        <li><a href="#" onclick="showSection('support')">Support</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="features">
+      <h2>Features</h2>
+      <p>Discover amazing deals, connect with trusted users, and enjoy a seamless marketplace experience designed for you!</p>
+      <ul>
+        <li>Easy Product Discovery</li>
+        <li>Secure Messaging System</li>
+        <li>Favorites and Wishlists</li>
+        <li>Real-Time Notifications</li>
+      </ul>
+    </section>
+
+    <section id="help" class="hidden">
+      <h2>Help Center</h2>
+      <h3>How to Buy:</h3>
+      <ul>
+        <li>Browse items listed by other students.</li>
+        <li>Click "Contact Seller" to reach out via WhatsApp or Email.</li>
+      </ul>
+
+      <h3>How to Sell:</h3>
+      <ul>
+        <li>Sign up/login to your account.</li>
+        <li>Post your item with an image, description, and contact info.</li>
+      </ul>
+
+      <h3>Safety Tips:</h3>
+      <ul>
+        <li>Meet in public spaces for exchange.</li>
+        <li>Verify item quality before payment.</li>
+      </ul>
+    </section>
+
+    <section id="support" class="hidden">
+        <h2>Support</h2>
+        <p>If you face any issues or wish to report something, contact our admin directly!</p>
+        <form id="supportForm">
+          <label for="email">Your Email:</label>
+          <input type="email" id="email" required>
+      
+          <label for="message">Message:</label>
+          <textarea id="message" rows="5" required></textarea>
+      
+          <button type="button" id="submitSupport">Submit</button>
+        </form>
+      </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Comrade Marketplace. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('main section');
+      sections.forEach(section => {
+        section.classList.add('hidden'); // Hide all sections
+      });
+      document.getElementById(sectionId).classList.remove('hidden'); // Show the clicked section
+    }
+
+    document.getElementById('submitSupport').addEventListener('click', function () {
+    const userEmail = document.getElementById('email').value;
+    const userMessage = document.getElementById('message').value;
+
+    const subject = encodeURIComponent("Support Request from " + userEmail);
+    const body = encodeURIComponent(userMessage);
+
+    window.location.href = `mailto:kelvinwanchara@gmail.com?subject=${subject}&body=${body}`;
+  });
+  </script>
+
+</body>
+</html>
